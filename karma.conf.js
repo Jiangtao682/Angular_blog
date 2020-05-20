@@ -27,6 +27,16 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    proxies: {
+      "/api": {
+        "target": "http://localhost:3000",
+        "changeOrigin": true
+      },
+      "/login": {
+        "target": "http://localhost:3000",
+        "changeOrigin": true
+      }
+    }
   });
 };
