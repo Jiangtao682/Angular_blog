@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
 export class TestComponent implements OnInit {
   posts: Post[];
   post: Post;
-  updateTtestPost: Post = new Post({postid: 3, title: 'update',
+  updateTtestPost: Post = new Post({postid: 16, title: 'update',
     body: 'update', created: 2, modified: 3});
 
   constructor(
@@ -50,6 +50,16 @@ export class TestComponent implements OnInit {
     const promise1 = this.blogService.updataPost('user2', this.updateTtestPost);
     promise1.then(() => {
       console.log('Updated a post!');
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  deletePost(){
+    const maxPostid = Math.max(...this.posts.map((p: Post) => p.postid));
+    const promise1 = this.blogService.deletePost('user2', maxPostid);
+    promise1.then(() => {
+      console.log('Delete a post!');
     }).catch(error => {
       console.error(error);
     });

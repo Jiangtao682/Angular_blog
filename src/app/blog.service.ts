@@ -102,7 +102,7 @@ export class BlogService {
             if(response.status == 200){// update sucess
               resolve()
             }else{
-              reject(404);
+              reject(response.status);
             }
           })
       }).catch(error=>{
@@ -120,6 +120,18 @@ export class BlogService {
         fetch(this.serverUrl + '/api/' + username + '/' + postid, {
           method: 'DELETE',
           credentials: 'include',
+        })
+          .then(response =>{
+            if (response.status == 204){ // sucess!
+              this.posts.splice(target_index, 1);
+              console.log('Delete success!')
+              resolve();
+            }else{
+              reject(response.status);
+              console.log('Error: Fail to Delete')
+            }
+          }).catch(error=>{
+            console.error(error);
         })
       })
     }
