@@ -1,8 +1,37 @@
 <p>test works!</p>
 
+
 <div *ngFor=" let post of posts">
   <span>
-    {{post.body}}
+    {{post.postid}}
+  </span>
+  <span>{{post.body}}</span>
+</div>
+
+
+<p>##################  getPost  ######################</p>
+
+
+<button (click)="getPost()" >
+  Fetch Posts
+</button>
+
+
+<div *ngIf="post">
+  <span>
+    {{post.postid}}
   </span>
 
 </div>
+
+<p>#####################  newPost  ##################################</p>
+
+<button (click)="newPost()" >
+  New Post
+</button>
+
+<button (click)="updatePost()" >
+  Update Post
+</button>
+
+
