@@ -26,8 +26,8 @@ export class PreviewComponent implements OnInit {
       promise1.then(post => {
         this.post = post;
         console.log('preview get a post: ', post);
-        this.titleHtml = this.writer.render(this.reader.parse(this.post.title));
         this.bodyHtml = this.writer.render(this.reader.parse(this.post.body));
+        this.titleHtml = this.writer.render(this.reader.parse(this.post.title));
       });
     });
   }
