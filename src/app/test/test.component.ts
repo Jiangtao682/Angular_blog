@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
 export class TestComponent implements OnInit {
   posts: Post[];
   post: Post;
-  updateTtestPost: Post = new Post({postid: 16, title: 'update',
+  updateTtestPost: Post = new Post({postid: 6, title: 'update',
     body: 'update', created: 2, modified: 3});
 
   constructor(
@@ -31,7 +31,7 @@ export class TestComponent implements OnInit {
 
 // test for getPost
   getPost(): void {
-    const promise1 = this.blogService.getPosts('user2', 4);
+    const promise1 = this.blogService.getPost('user2', 4);
     promise1.then(post => {
       this.post = post;
     });

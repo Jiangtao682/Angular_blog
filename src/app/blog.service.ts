@@ -9,20 +9,24 @@ import {error} from '@angular/compiler/src/util';
   providedIn: 'root'
 })
 export class BlogService {
+  public username: string = null;
+  public posts: Post[] = [];
+  public draft: Post = new Post();
+
   constructor(
     private http: HttpClient,
   ) {
+    const payload = this.parseJWT(document.cookie);
+    this.username = payload.usr;
+    this.fetchPosts(this.username); // this line is used to initiate posts;
   }
-
-  private serverUrl: string = '';
-  private username: string = 'user2';
-  public posts: Post[] = [];
 
   fetchPosts(username: string): Promise<Post[]>{
     return new Promise<Post[]>((resolve,reject) => {
-      fetch(this.serverUrl + '/api/' + username)
+      fetch( '/api/' + username)
         .then(response => response.json())
         .then(json => {
+          this.posts = [];
           console.log('sucessful fetch!');
           // console.log('result:' + json);
           for (const post of  json) {
@@ -37,9 +41,9 @@ export class BlogService {
     });
   }
 
-  getPosts(username:string, postid: number):Promise<Post>{
+  getPost(username:string, postid: number):Promise<Post>{
     return new Promise<Post>((resolve,reject) => {
-      fetch(this.serverUrl + '/api/' + username + '/' + postid)
+      fetch('/api/' + username + '/' + postid)
         .then(response => response.json())
         .then(json=> {
           console.log('sucessful fetchPost!');
@@ -59,7 +63,7 @@ export class BlogService {
     new_post.postid = new_postId;
     this.posts.push(new_post);
     return new Promise<void>((resolve, reject) => {
-      fetch(this.serverUrl + '/api/' + username + '/' + new_postId, {
+      fetch('/api/' + username + '/' + new_postId, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -83,14 +87,14 @@ export class BlogService {
   }
 
   updataPost(username:string, post:Post): Promise<void>{
-    const target_index = this.posts.map((p: Post) => p.postid).indexOf(post.postid);
+    const target_index = this.posts.map((p: Post) => p.postid).indexOf(post.postid); // this line may have bug!!
     if (target_index !== -1){ // find the target post
       let targetPost = this.posts[target_index];
       targetPost.body = post.body;
       targetPost.title = post.title;
       targetPost.modified = Date.now();
       return new Promise<void>((resolve,reject)=>{
-        fetch(this.serverUrl + '/api/' + username + '/' + post.postid, {
+        fetch('/api/' + username + '/' + post.postid, {
           method: 'PUT',
           credentials: 'include',
           headers: {
@@ -101,6 +105,7 @@ export class BlogService {
           .then(response => {
             if(response.status == 200){// update sucess
               resolve()
+              console.log('update success!')
             }else{
               reject(response.status);
             }
@@ -117,7 +122,7 @@ export class BlogService {
     const target_index = this.posts.map((p: Post) => p.postid).indexOf(postid);
     if (target_index !== -1) { // find the target post
       return new Promise<void>((resolve, reject) => {
-        fetch(this.serverUrl + '/api/' + username + '/' + postid, {
+        fetch('/api/' + username + '/' + postid, {
           method: 'DELETE',
           credentials: 'include',
         })
@@ -137,6 +142,25 @@ export class BlogService {
     }
   }
 
+  setCurrentDraft(post:Post): void{
+    this.draft = post;
+    console.log('Set Current Draft!')
+  }
+
+  getCurrentDraft(): Post{
+    if (this.draft.postid !== Number.NEGATIVE_INFINITY){
+      return this.draft;
+    }else{
+      return null;
+    }
+  }
+
+  parseJWT(token)
+  {
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(atob(base64));
+  }
 
 }
 
@@ -148,7 +172,7 @@ export class Post {
   title: string;
   body: string;
   constructor(p?: Post) {
-    this.postid = p && p.postid || 0;
+    this.postid = p && p.postid || Number.NEGATIVE_INFINITY;
     this.created = p && p.created ||  Date.now();  // Date(value/Date)
     this.modified = p && p.modified || Date.now();
     this.title = p && p.title || '';
