@@ -19,15 +19,18 @@ export class EditComponent implements OnInit {
     public activeRouter: ActivatedRoute,
     public router: Router
   ) {
-    this.id = +this.activeRouter.snapshot.paramMap.get('id');
-    this.username = this.blogService.username;
-    this.getPost();
+    this.activeRouter.paramMap.subscribe(() => this.ngOnInit());
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.id = parseInt(this.activeRouter.snapshot.paramMap.get('id'), 10);
+    console.log(this.id);
+    this.username = this.blogService.username;
+    this.getPost(this.username, this.id);
+  }
 
-  getPost(): void {
-    const promise1 = this.blogService.getPost(this.username, this.id);
+  getPost(username: string, id: number): void {
+    const promise1 = this.blogService.getPost(username, id);
     promise1.then(post => {
       this.post = post;
     });

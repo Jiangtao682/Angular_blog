@@ -19,6 +19,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.blogService.username;
+    console.log('list ngOnInit executed');
     this.fetchPosts(this.username);
   }
 
@@ -37,5 +38,9 @@ export class ListComponent implements OnInit {
     }).catch(error => {
       console.error(error);
     });
+  }
+
+  setCurrentDraft(post){
+    this.blogService.setCurrentDraft(post);
   }
 }

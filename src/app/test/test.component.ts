@@ -15,11 +15,12 @@ export class TestComponent implements OnInit {
 
   constructor(
     private blogService: BlogService
-  ) { }
+  ) {
+    this.fetchPosts();
+  }
 
 // test for fetchPosts
   ngOnInit() {
-    this.fetchPosts();
   }
 
   fetchPosts(): void {

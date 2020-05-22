@@ -1,10 +1,14 @@
 
+<p>posts from: {{username}}</p>
 
-<button (click)="newPost()">New Post</button>
-<a *ngFor="let post of posts" [routerLink]="['/edit/',post?.postid]" routerLinkActive="active">
-  <div>
-    <div>{{post.created | date: 'M/d/yyyy h:mm:ss a'}}</div>
-    <div>{{post.title}}</div>
-  </div>
-</a>
-
+<button (click) = "newPost()">New Post</button>
+<div>
+  <ul class="list" >
+    <li *ngFor="let post of posts"
+        [routerLink]="['/edit/',post?.postid]"
+        routerLinkActive="active"
+        (click)="setCurrentDraft(post)">
+      <span class="badge" >{{post.created | date: 'M/d/yyyy h:mm:ss a'}}</span> {{post.title}}
+    </li>
+  </ul>
+</div>

@@ -144,7 +144,7 @@ export class BlogService {
 
   setCurrentDraft(post:Post): void{
     this.draft = post;
-    console.log('Set Current Draft!')
+    console.log('Set Current Draft!', this.draft);
   }
 
   getCurrentDraft(): Post{
