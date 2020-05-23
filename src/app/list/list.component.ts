@@ -34,7 +34,8 @@ export class ListComponent implements OnInit {
     const promise1 = this.blogService.newPost(this.username, null);
     promise1.then(() => {
       console.log('Created a new post!');
-      this.blogService.setCurrentDraft(this.posts[-1]);
+      this.blogService.setCurrentDraft(this.posts[this.posts.length - 1]);
+      this.router.navigate(['/edit/' + this.posts[this.posts.length - 1].postid]);
     }).catch(error => {
       console.error(error);
     });

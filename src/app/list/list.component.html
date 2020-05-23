@@ -5,7 +5,8 @@
     <li *ngFor="let post of posts"
         [routerLink]="['/edit/',post?.postid]"
         routerLinkActive="active"
-        (click)="setCurrentDraft(post)">
+        (click)="setCurrentDraft(post)"
+    >
       <span class="badge" >{{post.created | date: 'M/d/yyyy h:mm:ss a'}}</span> {{post.title}}
     </li>
   </ul>

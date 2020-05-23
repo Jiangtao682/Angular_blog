@@ -19,24 +19,23 @@ export class EditComponent implements OnInit {
     public activeRouter: ActivatedRoute,
     public router: Router
   ) {
-    this.activeRouter.paramMap.subscribe(() => this.ngOnInit());
+    this.activeRouter.paramMap.subscribe(() => this.getCurrentDraft());
   }
 
-  ngOnInit(): void {
-    this.id = parseInt(this.activeRouter.snapshot.paramMap.get('id'), 10);
-    console.log(this.id);
+  ngOnInit(): void { }
+
+  getPost(): void {
     this.username = this.blogService.username;
-    this.getPost(this.username, this.id);
-  }
-
-  getPost(username: string, id: number): void {
-    const promise1 = this.blogService.getPost(username, id);
+    this.id = parseInt(this.activeRouter.snapshot.paramMap.get('id'), 10);
+    const promise1 = this.blogService.getPost(this.username, this.id);
     promise1.then(post => {
       this.post = post;
     });
   }
 
   updatePost(){
+    this.username = this.blogService.username;
+    this.post = this.blogService.getCurrentDraft();
     const promise1 = this.blogService.updataPost(this.username, this.post);
     promise1.then(() => {
       console.log('Updated a post!');
@@ -46,16 +45,30 @@ export class EditComponent implements OnInit {
   }
 
   deletePost(){
+    this.username = this.blogService.username;
+    this.id = parseInt(this.activeRouter.snapshot.paramMap.get('id'), 10);
     const promise1 = this.blogService.deletePost(this.username, this.id);
     promise1.then(() => {
       console.log('Delete a post!');
+      this.router.navigate(['/']);
     }).catch(error => {
       console.error(error);
     });
   }
 
   preview(){
+    this.blogService.setCurrentDraft(this.post);
     this.router.navigate(['/preview/' + this.id]);
+  }
+
+  getCurrentDraft(){
+    this.post = this.blogService.getCurrentDraft();
+    this.id = parseInt(this.activeRouter.snapshot.paramMap.get('id'), 10);
+    if (this.post == null || this.post.postid !== this.id){
+      this.getPost();
+    }else{
+      console.log('Edit get current draft success!');
+    }
   }
 
 

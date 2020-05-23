@@ -8,7 +8,6 @@ import {PreviewComponent} from './preview/preview.component';
 
 const routes: Routes = [
   {path: 'test', component:  TestComponent},
-  // {path: 'list', component: ListComponent},
   {path: 'edit/:id', component: EditComponent},
   {path: 'preview/:id', component: PreviewComponent}
 ];

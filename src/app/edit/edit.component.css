@@ -13,8 +13,8 @@ button[_ngcontent-c2]{
   margin-top:20px;
   font-family:Arial;
   background-color:#eee;border:none;
-  padding:5px 10px;
-  border-radius:4px;
+  padding:5px 20px;
+  border-radius:20px;
   cursor:pointer;
   cursor:hand
 }

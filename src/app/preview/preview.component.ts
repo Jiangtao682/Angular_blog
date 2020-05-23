@@ -10,7 +10,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PreviewComponent implements OnInit {
   post: Post;
-  username: string;
   titleHtml: string;
   bodyHtml: string;
   reader = new Parser();
@@ -19,19 +18,12 @@ export class PreviewComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     public router: ActivatedRoute
-  ) {
-    this.username = this.blogService.username;
-    this.router.params.subscribe(params => {
-      const promise1 = this.blogService.getPost(this.username, params.id);
-      promise1.then(post => {
-        this.post = post;
-        console.log('preview get a post: ', post);
-        this.bodyHtml = this.writer.render(this.reader.parse(this.post.body));
-        this.titleHtml = this.writer.render(this.reader.parse(this.post.title));
-      });
-    });
+  ) { }
+
+  ngOnInit(): void {
+    this.post = this.blogService.getCurrentDraft();
+    console.log('preview get a post: ', this.post);
+    this.bodyHtml = this.writer.render(this.reader.parse(this.post.body));
+    this.titleHtml = this.writer.render(this.reader.parse(this.post.title));
   }
-
-  ngOnInit(): void { }
-
 }
