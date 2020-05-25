@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {BlogService, Post} from '../blog.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {EditComponent} from '../edit/edit.component';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
   posts: Post[];
@@ -14,19 +15,24 @@ export class ListComponent implements OnInit {
 
   constructor(
     private blogService: BlogService,
-    public router: Router
-  ) { }
+    public router: Router,
+    public activeRouter: ActivatedRoute
+  ) {
+  }
 
   ngOnInit(): void {
     this.username = this.blogService.username;
     console.log('list ngOnInit executed');
-    this.fetchPosts(this.username);
+    this.fetchPosts();
   }
 
-  fetchPosts(username: string): void {
-    const promise1 = this.blogService.fetchPosts(username);
+  fetchPosts(): void {
+    this.username = this.blogService.username;
+    const promise1 = this.blogService.fetchPosts(this.username);
     promise1.then(posts => {
       this.posts = posts;
+      // this.post and posts works similarly as pointer that point to a object,
+      // so change either of them will change the original object.
     });
   }
 

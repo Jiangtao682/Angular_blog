@@ -1,21 +1,6 @@
-<!--<div>-->
-<!--  <label>Title:</label>-->
-<!--  <input [(ngModel)]="post.title" placeholder="title"/>-->
-<!--</div>-->
-<!--<div>-->
-<!--  <label>Body:-->
-<!--    <textarea [(ngModel)]="post.body" placeholder="body"></textarea>-->
-<!--  </label>-->
-<!--</div>-->
-<!--<h4>Last Modified: {{post.modified| date:'M/d/yyyy h:mm:ss a'}}</h4>-->
-<!--<div>-->
-<!--  <button (click)="deletePost()">Delete</button>-->
-<!--  <button (click)="updatePost()">Save</button>-->
-<!--  <button (click)="preview()">Preview</button>-->
-<!--</div>-->
-<h1>Edit</h1>
-<div *ngIf = "post" class="editPane">
 
+<div *ngIf = "post" class="editPane">
+  <h1>Edit</h1>
 <form _ngcontent-c2="" novalidate="" class="ng-pristine ng-valid ng-touched">
   <div _ngcontent-c2="">
     <label _ngcontent-c2="">Title:

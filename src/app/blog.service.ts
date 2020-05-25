@@ -33,7 +33,7 @@ export class BlogService {
             this.posts.push(new Post(post));
           }
           console.log('posts: ' , this.posts);
-          resolve(this.posts)
+          resolve(this.posts); // resolve() can make the parameter return as the Promise
         }).catch((error)=>{
           console.error('Error:', error);
           reject(error);

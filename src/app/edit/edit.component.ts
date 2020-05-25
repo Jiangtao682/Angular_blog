@@ -17,9 +17,12 @@ export class EditComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     public activeRouter: ActivatedRoute,
-    public router: Router
+    public router: Router,
   ) {
     this.activeRouter.paramMap.subscribe(() => this.getCurrentDraft());
+    // if the url is change within this app, this class would not initiate again.
+    // using subscribe to monitor the changes of url make some functionalities possible.
+    // Only when this component, it will re-instant as a object.
   }
 
   ngOnInit(): void { }
